@@ -5,7 +5,7 @@ CREATE DATABASE AEROPORTO;
 USE AEROPORTO;
 
 CREATE TABLE IF NOT EXISTS PASSAGEIRO(
-    NUM_PASSAPORTE INT,
+    NUM_PASSAPORTE INT UNIQUE,
     NOME_PASSAGEIRO VARCHAR(20) NOT NULL,
     DATA_NASCIMENTO DATE CHECK(DATA_NASCIMENTO < CURRENT_DATE()) NOT NULL,
     GENERO CHAR(1) CHECK(GENERO = 'M' OR GENERO = 'F') NOT NULL,
@@ -37,8 +37,15 @@ CREATE TABLE IF NOT EXISTS COMPANHIA_AEREA(
     NOME_COMPANHIA VARCHAR(20) CHECK(NOME_COMPANHIA = 'Avianca' OR 
                                      NOME_COMPANHIA = 'Azul' OR 
                                      NOME_COMPANHIA = 'LATAM' OR
-                                     NOME_COMPANHIA = 'GOL'
-                                     ),
+                                     NOME_COMPANHIA = 'GOL' OR
+                                     NOME_COMPANHIA = 'Copa Airlines' OR
+                                     NOME_COMPANHIA = 'TAP Air Portugal' OR
+                                     NOME_COMPANHIA = 'Passaredo' OR
+                                     NOME_COMPANHIA = 'Qatar Airways' OR
+                                     NOME_COMPANHIA = 'Air France KLM' OR
+                                     NOME_COMPANHIA = 'Fly Emirates' OR
+                                     NOME_COMPANHIA = 'MAP' OR
+                                     NOME_COMPANHIA = 'Voepass'),
 
     ID_COMPANHIA INT, -- CHAVE PRIMÁRIA
 
@@ -64,7 +71,7 @@ CREATE TABLE IF NOT EXISTS AVIAO(
                                  TIPO_AVIAO = 'regional' OR
                                  TIPO_AVIAO = 'fuselagem larga'
 								) NOT NULL,
-    NUMERO_REGISTRO INT NOT NULL,
+    NUMERO_REGISTRO INT UNIQUE NOT NULL,
     CAPACIDADE_ASSENTOS INT CHECK(CAPACIDADE_ASSENTOS > 2),
 
     ID_AVIAO INT, -- CHAVE PRIMÁRIA
@@ -82,7 +89,8 @@ CREATE TABLE IF NOT EXISTS VOO(
 
     ID_AVIAO INT,       -- CHAVE ESTRANGEIRA PARA AVIAO
     ID_AEROPORTO INT,   -- CHAVE ESTRANGEIRA PARA AEROPORTO
-    ID_FUNCIONARIO INT  -- CHAVE ESTRANGEIRA PARA OPERADOR DE CARGA
+    ID_FUNCIONARIO INT CHECK(ID_FUNCIONARIO >= 1 AND ID_FUNCIONARIO <= (SELECT COUNT(ID_FUNCIONARIO) FROM OPERADOR_DE_CARGA))  
+    -- CHAVE ESTRANGEIRA PARA FUNCIONARIO (OPERADOR DE CARGA)
 
 );
 
@@ -114,11 +122,9 @@ CREATE TABLE IF NOT EXISTS AEROPORTO(
 );
 
 CREATE TABLE IF NOT EXISTS RESERVA_EMBARQUE(
-    HORA_CHECKIN TIME NOT NULL,
-    DATA_CHECKIN DATE NOT NULL,
-    STATUS_CHECKIN VARCHAR(15) CHECK(STATUS_CHECKIN = 'aberto' OR
-									 STATUS_CHECKIN = 'concluido' OR
-                                     STATUS_CHECKIN = 'encerrado' OR
+    HORA_CHECKIN TIME CHECK(HORA_CHECKIN < HORA_EMBARQUE) NOT NULL,
+    DATA_CHECKIN DATE CHECK(DATA_CHECKIN = DATA_EMBARQUE) NOT NULL,
+    STATUS_CHECKIN VARCHAR(15) CHECK(STATUS_CHECKIN = 'concluido' OR
                                      STATUS_CHECKIN = 'erro' OR
                                      STATUS_CHECKIN = 'pendente'
 									) NOT NULL,
@@ -128,10 +134,9 @@ CREATE TABLE IF NOT EXISTS RESERVA_EMBARQUE(
 									  STATUS_EMBARQUE = 'concluido' OR
                                       STATUS_EMBARQUE = 'em andamento' OR
                                       STATUS_EMBARQUE = 'encerrado' OR
-                                      STATUS_EMBARQUE = 'finalizado' OR
                                       STATUS_EMBARQUE = 'prioritario'
 									 ) NOT NULL,
-    NUM_ASSENTO INT UNIQUE NOT NULL,
+    NUM_ASSENTO INT NOT NULL,
     CARTAO_EMBARQUE INT,
 
     ID_VOO INT,         -- CHAVE ESTRANGEIRA PARA VOO
