@@ -19,7 +19,7 @@ TELEFONE = {'984DDDDDD', '991DDDDDD', '999DDDDDD'} => D será substituido por um
 
 
 COMPANHIA_AEREA:
-NOME_COMPANHIA = {'Avianca', 'Azul', 'LATAM', 'GOL'}
+NOME_COMPANHIA = {'Avianca', 'Azul', 'LATAM', 'GOL', 'Copa', 'TAP Air Portugal', 'Passaredo', 'Qatar Airways', 'Air France KLM', 'Fly Emirates', 'MAP', 'Voepass'}
 
 
 
