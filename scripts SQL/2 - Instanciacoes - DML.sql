@@ -5,7 +5,7 @@ INSERT INTO AEROPORTO VALUES('Aeroporto Internacional de Guarulhos', 1),
                             ('Aeroporto Internacional de Brasilia', 3),
                             ('Aeroporto Internacional de Viracopos', 4);
                             
-ALTER TABLE COMPANHIA_AEREA ADD FOREIGN KEY (ID_AEROPORTO) REFERENCES AEROPORTO(ID_AEROPORTO) ON DELETE SET NULL ON UPDATE CASCADE;
+
 
 INSERT INTO COMPANHIA_AEREA VALUES('Avianca', 1, 4),	-- 4 Aeroportos
 								  ('Azul', 2, 1),
@@ -20,7 +20,9 @@ INSERT INTO COMPANHIA_AEREA VALUES('Avianca', 1, 4),	-- 4 Aeroportos
                                   ('MAP', 11, 2),
                                   ('Voepass', 12, 1);
                                   
-ALTER TABLE FUNCIONARIO ADD FOREIGN KEY (ID_AEROPORTO) REFERENCES AEROPORTO(ID_AEROPORTO) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE COMPANHIA_AEREA ADD FOREIGN KEY (ID_AEROPORTO) REFERENCES AEROPORTO(ID_AEROPORTO) ON DELETE SET NULL ON UPDATE CASCADE;
+                                  
+
 
 INSERT INTO FUNCIONARIO VALUES('Bruno Motta', 'brunom@gmail.com', '991813701', 1, 3),	-- 4 Aeroportos
 							  ('Marta Lopes', 'martalps@outlook.com', '984510293', 2, 1),
@@ -34,6 +36,10 @@ INSERT INTO FUNCIONARIO VALUES('Bruno Motta', 'brunom@gmail.com', '991813701', 1
                               ('Larissa Silva', 'larissaslv@outlook.com', '999714021', 10, 3),
                               ('Carmem Rosa', 'carmemrosa@gmail.com', '984941073', 11, 4),
                               ('Luciana Santos', 'lusantos@gmail.com', '999104291', 12, 2);
+
+ALTER TABLE FUNCIONARIO ADD FOREIGN KEY (ID_AEROPORTO) REFERENCES AEROPORTO(ID_AEROPORTO) ON DELETE CASCADE ON UPDATE CASCADE;
+
+
 
 INSERT INTO PASSAGEIRO VALUES(1, 'Kevin Silva', '1980-03-19', 'M', 'Brasileiro', 1),
 							 (2, 'Joana Santos', '1997-12-01', 'F', 'Portugues', 2),
@@ -56,14 +62,16 @@ INSERT INTO PASSAGEIRO VALUES(1, 'Kevin Silva', '1980-03-19', 'M', 'Brasileiro',
                              (19, 'Julio Mendes', '1999-08-21', 'M', 'Brasileiro', 19),
                              (20, 'Fernanda Jobim', '1981-08-01', 'F', 'Angolano', 20);
 							
-ALTER TABLE OPERADOR_DE_CARGA ADD FOREIGN KEY (ID_FUNCIONARIO) REFERENCES FUNCIONARIO(ID_FUNCIONARIO) ON DELETE CASCADE ON UPDATE CASCADE;
+
 
 INSERT INTO OPERADOR_DE_CARGA VALUES('Azul Cargo Express', 1),	-- 12 Funcionários
 									('Avianca Cargo', 2),
                                     ('LATAM Cargo', 3),
                                     ('Gollog', 4);
-                                    
-ALTER TABLE AVIAO ADD FOREIGN KEY (ID_COMPANHIA) REFERENCES COMPANHIA_AEREA(ID_COMPANHIA) ON DELETE SET NULL ON UPDATE CASCADE;
+
+ALTER TABLE OPERADOR_DE_CARGA ADD FOREIGN KEY (ID_FUNCIONARIO) REFERENCES FUNCIONARIO(ID_FUNCIONARIO) ON DELETE CASCADE ON UPDATE CASCADE;         
+
+
 
 INSERT INTO AVIAO VALUES('corredor unico', 1, 100, 1, 4),	-- 12 Companhias Aéreas
 						('fuselagem larga', 2, 126, 2, 1),
@@ -92,10 +100,10 @@ INSERT INTO AVIAO VALUES('corredor unico', 1, 100, 1, 4),	-- 12 Companhias Aére
                         ('fuselagem larga', 25, 138, 25, 9),
                         ('corredor duplo', 26, 182, 26, 10),
                         ('corredor unico', 27, 100, 27, 9);
-                        
-ALTER TABLE VOO ADD FOREIGN KEY (ID_AVIAO) REFERENCES AVIAO(ID_AVIAO) ON DELETE CASCADE ON UPDATE CASCADE;
-ALTER TABLE VOO ADD FOREIGN KEY (ID_AEROPORTO) REFERENCES AEROPORTO(ID_AEROPORTO) ON DELETE SET NULL ON UPDATE CASCADE;
-ALTER TABLE VOO ADD FOREIGN KEY (ID_FUNCIONARIO) REFERENCES FUNCIONARIO(ID_FUNCIONARIO) ON DELETE SET NULL ON UPDATE CASCADE;
+
+ALTER TABLE AVIAO ADD FOREIGN KEY (ID_COMPANHIA) REFERENCES COMPANHIA_AEREA(ID_COMPANHIA) ON DELETE SET NULL ON UPDATE CASCADE;  
+
+
 
 INSERT INTO VOO VALUES('Nova Iorque', '19-05-2016', '17:35:01', 1, 4, 2, 3), -- 27 Aviões, 4 Aeroportos, 4 Funcionários (Operadores de carga)
 					  ('Miami', '2021-04-07', '21:04:09', 2, 7, 3, 1),
@@ -128,9 +136,12 @@ INSERT INTO VOO VALUES('Nova Iorque', '19-05-2016', '17:35:01', 1, 4, 2, 3), -- 
                       ('Viena', '2023-04-03', '15:21:03', 29, 11, 4, 2),
                       ('Beirute', '2021-08-02', '18:10:32', 30, 18, 1, 1),
                       ('Okinawa', '2019-09-21', '19:07:30', 31, 21, 2, 4);
-                      
-ALTER TABLE BAGAGEM ADD FOREIGN KEY (ID_PASSAGEIRO) REFERENCES PASSAGEIRO(ID_PASSAGEIRO) ON DELETE SET NULL ON UPDATE CASCADE;
-ALTER TABLE BAGAGEM ADD FOREIGN KEY (ID_VOO) REFERENCES VOO(ID_VOO) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE VOO ADD FOREIGN KEY (ID_AVIAO) REFERENCES AVIAO(ID_AVIAO) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE VOO ADD FOREIGN KEY (ID_AEROPORTO) REFERENCES AEROPORTO(ID_AEROPORTO) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE VOO ADD FOREIGN KEY (ID_FUNCIONARIO) REFERENCES FUNCIONARIO(ID_FUNCIONARIO) ON DELETE SET NULL ON UPDATE CASCADE;
+
+
 
 INSERT INTO BAGAGEM VALUES(14, 1, 'aceito', 1, 1, 20),	-- 20 Passageiros, 31 Voos
 						  (16, 3, 'despachado', 2, 2, 3),
@@ -152,9 +163,11 @@ INSERT INTO BAGAGEM VALUES(14, 1, 'aceito', 1, 1, 20),	-- 20 Passageiros, 31 Voo
                           (23, 1, 'entregue', 18, 18, 12),
                           (14, 3, 'em processamento', 19, 19, 10),
                           (23, 2, 'nao aceito', 20, 20, 10);
+                          
+ALTER TABLE BAGAGEM ADD FOREIGN KEY (ID_PASSAGEIRO) REFERENCES PASSAGEIRO(ID_PASSAGEIRO) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE BAGAGEM ADD FOREIGN KEY (ID_VOO) REFERENCES VOO(ID_VOO) ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE RESERVA_EMBARQUE ADD FOREIGN KEY (ID_VOO) REFERENCES VOO(ID_VOO) ON DELETE CASCADE ON UPDATE CASCADE;
-ALTER TABLE RESERVA_EMBARQUE ADD FOREIGN KEY (ID_PASSAGEIRO) REFERENCES PASSAGEIRO(ID_PASSAGEIRO) ON DELETE CASCADE ON UPDATE CASCADE;
+
 
 INSERT INTO RESERVA_EMBARQUE VALUES('15:09:20', '2023-05-09', 'concluido', '15:30:00', '2023-05-09', 'concluido', 45, 1, 20, 1),
 								   ('16:20:01', '2016-09-14', 'concluido', '16:25:23', '2016-09-14', 'concluido', 32, 2, 3, 2),
@@ -176,3 +189,6 @@ INSERT INTO RESERVA_EMBARQUE VALUES('15:09:20', '2023-05-09', 'concluido', '15:3
                                    ('18:40:43', '2017-07-13', 'concluido', '18:42:01', '2017-07-13', 'em andamento', 10, 18, 12, 18),
                                    ('15:10:06', '2023-04-18', 'pendente', '15:11:56', '2023-04-18', 'aberto', 32, 19, 10, 19),
                                    ('20:09:45', '2023-01-16', 'concluido', '20:15:46', '2023-01-16', 'concluido', 20, 20, 10, 20);
+
+ALTER TABLE RESERVA_EMBARQUE ADD FOREIGN KEY (ID_VOO) REFERENCES VOO(ID_VOO) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE RESERVA_EMBARQUE ADD FOREIGN KEY (ID_PASSAGEIRO) REFERENCES PASSAGEIRO(ID_PASSAGEIRO) ON DELETE CASCADE ON UPDATE CASCADE;
