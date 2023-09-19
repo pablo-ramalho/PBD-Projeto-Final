@@ -7,18 +7,33 @@ INSERT INTO AEROPORTO VALUES('Aeroporto Internacional de Guarulhos', 1),
                             
 
 
-INSERT INTO COMPANHIA_AEREA VALUES('Avianca', 1, 4),	-- 4 Aeroportos
-								  ('Azul', 2, 1),
+INSERT INTO COMPANHIA_AEREA VALUES('Avianca', 1, 2),	-- 4 Aeroportos
+								  ('Avianca', 1, 4),
+                                  ('Azul', 2, 1),
+                                  ('Azul', 2, 2),
+                                  ('Azul', 2, 3),
+                                  ('Azul', 2, 4),
+                                  ('LATAM', 3, 1),
                                   ('LATAM', 3, 3),
-                                  ('GOL', 4, 2),
+                                  ('LATAM', 3, 4),
+                                  ('GOL', 4, 1),
+                                  ('GOL', 4, 4),
+                                  ('Copa Airlines', 5, 1),
                                   ('Copa Airlines', 5, 4),
                                   ('TAP Air Portugal', 6, 2),
+                                  ('TAP Air Portugal', 6, 3),
                                   ('Passaredo', 7, 3),
-                                  ('Qatar Airways', 8, 4),
-                                  ('Air France KLM', 9, 1),
+                                  ('Qatar Airways', 8, 1),
+                                  ('Qatar Airways', 8, 2),
+                                  ('Air France KLM', 9, 3),
+                                  ('Fly Emirates', 10, 1),
+                                  ('Fly Emirates', 10, 2),
                                   ('Fly Emirates', 10, 3),
+                                  ('Fly Emirates', 10, 4),
                                   ('MAP', 11, 2),
-                                  ('Voepass', 12, 1);
+                                  ('Voepass', 12, 1),
+                                  ('Voepass', 12, 2),
+                                  ('Voepass', 12, 3),;
                                   
 ALTER TABLE COMPANHIA_AEREA ADD FOREIGN KEY (ID_AEROPORTO) REFERENCES AEROPORTO(ID_AEROPORTO) ON DELETE SET NULL ON UPDATE CASCADE;
                                   
@@ -64,7 +79,7 @@ INSERT INTO PASSAGEIRO VALUES(1, 'Kevin Silva', '1980-03-19', 'M', 'Brasileiro',
 							
 
 
-INSERT INTO OPERADOR_DE_CARGA VALUES('Azul Cargo Express', 1),	-- 12 Funcionários
+INSERT INTO OPERADOR_DE_CARGA VALUES('Azul Cargo Express', 1),	-- 12 Funcionários (alguns funcionários são operadores de carga)
 									('Avianca Cargo', 2),
                                     ('LATAM Cargo', 3),
                                     ('Gollog', 4);
