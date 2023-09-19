@@ -92,18 +92,7 @@ INSERT INTO VOO VALUES('Nova Iorque', '19-05-2016', '17:35:01', 1, 5, 1, 1),    
                       ('Londres', '2023-09-15', '21:04:05', 17, 1, 1, 3),
                       ('Roma', '2017-07-14', '17:01:23', 18, 3, 1, 3),
                       ('Sydney', '2016-03-28', '18:08:27', 19, 7, 1, 3),
-                      ('Istambul', '2021-05-20', '15:01:20', 20, 8, 1, 3),
-                      ('Cairo', '2016-03-21', '16:12:40', 21, 6, 1, 3),
-                      ('Barcelona', '2016-02-15', '09:02:24', 22, 1, 1, 3),
-                      ('Atenas', '2018-07-24', '10:01:07', 23, 8, 1, 3),
-                      ('Berlim', '2016-05-21', '13:01:48', 24, 1, 1, 3),
-                      ('Dublin', '2023-02-20', '16:20:13', 25, 4, 1, 4),
-                      ('Seul', '2021-09-21', '21:09:02', 26, 2, 1, 4),
-                      ('Buenos Aires', '2016-04-04', '20:15:40', 27, 1, 1, 4),
-                      ('Bogota', '2021-01-23', '18:20:41', 28, 8, 1, 4),
-                      ('Viena', '2023-04-03', '15:21:03', 29, 7, 1, 4),
-                      ('Beirute', '2021-08-02', '18:10:32', 30, 3, 1, 4),
-                      ('Okinawa', '2019-09-21', '19:07:30', 31, 6, 1, 4);
+                      ('Istambul', '2021-05-20', '15:01:20', 20, 8, 1, 3),;
 
 ALTER TABLE VOO ADD FOREIGN KEY (ID_AVIAO) REFERENCES AVIAO(ID_AVIAO) ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE VOO ADD FOREIGN KEY (ID_AEROPORTO) REFERENCES AEROPORTO(ID_AEROPORTO) ON DELETE SET NULL ON UPDATE CASCADE;
