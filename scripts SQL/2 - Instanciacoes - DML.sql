@@ -7,8 +7,7 @@ INSERT INTO AEROPORTO VALUES('Aeroporto Internacional de Brasilia', 1);
 INSERT INTO COMPANHIA_AEREA VALUES('Avianca', 1, 1),	-- 4 Aeroportos
                                   ('Azul', 2, 1),
                                   ('LATAM', 3, 1),
-                                  ('GOL', 4, 1),
-                                  ('Copa Airlines', 5, 1);
+                                  ('GOL', 4, 1);
                                   
 ALTER TABLE COMPANHIA_AEREA ADD FOREIGN KEY (ID_AEROPORTO) REFERENCES AEROPORTO(ID_AEROPORTO) ON DELETE SET NULL ON UPDATE CASCADE;
                                   
