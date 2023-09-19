@@ -1,56 +1,29 @@
 -- operações de inserção de dados nas tabelas (instanciação de dados no banco)
 
-INSERT INTO AEROPORTO VALUES('Aeroporto Internacional de Guarulhos', 1),
-							('Aeroporto Internacional do Galeao', 2),
-                            ('Aeroporto Internacional de Brasilia', 3),
-                            ('Aeroporto Internacional de Viracopos', 4);
+INSERT INTO AEROPORTO VALUES('Aeroporto Internacional de Brasilia', 1);
                             
 
 
-INSERT INTO COMPANHIA_AEREA VALUES('Avianca', 1, 2),	-- 4 Aeroportos
-								  ('Avianca', 1, 4),
+INSERT INTO COMPANHIA_AEREA VALUES('Avianca', 1, 1),	-- 4 Aeroportos
                                   ('Azul', 2, 1),
-                                  ('Azul', 2, 2),
-                                  ('Azul', 2, 3),
-                                  ('Azul', 2, 4),
                                   ('LATAM', 3, 1),
-                                  ('LATAM', 3, 3),
-                                  ('LATAM', 3, 4),
                                   ('GOL', 4, 1),
-                                  ('GOL', 4, 4),
-                                  ('Copa Airlines', 5, 1),
-                                  ('Copa Airlines', 5, 4),
-                                  ('TAP Air Portugal', 6, 2),
-                                  ('TAP Air Portugal', 6, 3),
-                                  ('Passaredo', 7, 3),
-                                  ('Qatar Airways', 8, 1),
-                                  ('Qatar Airways', 8, 2),
-                                  ('Air France KLM', 9, 3),
-                                  ('Fly Emirates', 10, 1),
-                                  ('Fly Emirates', 10, 2),
-                                  ('Fly Emirates', 10, 3),
-                                  ('Fly Emirates', 10, 4),
-                                  ('MAP', 11, 2),
-                                  ('Voepass', 12, 1),
-                                  ('Voepass', 12, 2),
-                                  ('Voepass', 12, 3),;
+                                  ('Copa Airlines', 5, 1);
                                   
 ALTER TABLE COMPANHIA_AEREA ADD FOREIGN KEY (ID_AEROPORTO) REFERENCES AEROPORTO(ID_AEROPORTO) ON DELETE SET NULL ON UPDATE CASCADE;
                                   
 
 
-INSERT INTO FUNCIONARIO VALUES('Bruno Motta', 'brunom@gmail.com', '991813701', 1, 3),	-- 4 Aeroportos
+INSERT INTO FUNCIONARIO VALUES('Bruno Motta', 'brunom@gmail.com', '991813701', 1, 1),	-- 4 Aeroportos
 							  ('Marta Lopes', 'martalps@outlook.com', '984510293', 2, 1),
-                              ('Pedro Magalhaes', 'pmag@hotmail.com', '991403912', 3, 3),
-                              ('Fernando Silva', 'fernandosilva@hotmail.com', '999801427', 4, 4),
+                              ('Pedro Magalhaes', 'pmag@hotmail.com', '991403912', 3, 1),
+                              ('Fernando Silva', 'fernandosilva@hotmail.com', '999801427', 4, 1),
                               ('Leonardo Freitas', 'leofreitas@gmail.com', '999718240', 5, 1),
                               ('João Pereira', 'jpereira@outlook.com', '984194716', 6, 1),
-                              ('Sergio Mendes', 'serjm@gmail.com', '984817234', 7, 2),
-                              ('Bianca Rocha', 'bibirocha@outlook.com', '991713049', 8, 2),
-                              ('Miranda Fagundes', 'mirafagundes@hotmail.com', '991814025', 9, 4),
-                              ('Larissa Silva', 'larissaslv@outlook.com', '999714021', 10, 3),
-                              ('Carmem Rosa', 'carmemrosa@gmail.com', '984941073', 11, 4),
-                              ('Luciana Santos', 'lusantos@gmail.com', '999104291', 12, 2);
+                              ('Sergio Mendes', 'serjm@gmail.com', '984817234', 7, 1),
+                              ('Bianca Rocha', 'bibirocha@outlook.com', '991713049', 8, 1),
+                              ('Miranda Fagundes', 'mirafagundes@hotmail.com', '991814025', 9, 1),
+                              ('Larissa Silva', 'larissaslv@outlook.com', '999714021', 10, 1);
 
 ALTER TABLE FUNCIONARIO ADD FOREIGN KEY (ID_AEROPORTO) REFERENCES AEROPORTO(ID_AEROPORTO) ON DELETE CASCADE ON UPDATE CASCADE;
 
