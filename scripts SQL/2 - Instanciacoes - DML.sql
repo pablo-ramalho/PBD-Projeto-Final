@@ -4,7 +4,7 @@ INSERT INTO AEROPORTO VALUES('Aeroporto Internacional de Brasilia', 1);
                             
 
 
-INSERT INTO COMPANHIA_AEREA VALUES('Avianca', 1, 1),	-- 4 Aeroportos
+INSERT INTO COMPANHIA_AEREA VALUES('Avianca', 1, 1),
                                   ('Azul', 2, 1),
                                   ('LATAM', 3, 1),
                                   ('GOL', 4, 1);
@@ -13,7 +13,7 @@ ALTER TABLE COMPANHIA_AEREA ADD FOREIGN KEY (ID_AEROPORTO) REFERENCES AEROPORTO(
                                   
 
 
-INSERT INTO FUNCIONARIO VALUES('Bruno Motta', 'brunom@gmail.com', '991813701', 1, 1),	-- 4 Aeroportos
+INSERT INTO FUNCIONARIO VALUES('Bruno Motta', 'brunom@gmail.com', '991813701', 1, 1),
 							  ('Marta Lopes', 'martalps@outlook.com', '984510293', 2, 1),
                               ('Pedro Magalhaes', 'pmag@hotmail.com', '991403912', 3, 1),
                               ('Fernando Silva', 'fernandosilva@hotmail.com', '999801427', 4, 1),
@@ -51,7 +51,7 @@ INSERT INTO PASSAGEIRO VALUES(1, 'Kevin Silva', '1980-03-19', 'M', 'Brasileiro',
 							
 
 
-INSERT INTO OPERADOR_DE_CARGA VALUES('Azul Cargo Express', 1),	-- 12 Funcionários (alguns funcionários são operadores de carga)
+INSERT INTO OPERADOR_DE_CARGA VALUES('Azul Cargo Express', 1),	-- 10 Funcionários (alguns funcionários são operadores de carga)
 									('Avianca Cargo', 2),
                                     ('LATAM Cargo', 3),
                                     ('Gollog', 4);
@@ -60,39 +60,20 @@ ALTER TABLE OPERADOR_DE_CARGA ADD FOREIGN KEY (ID_FUNCIONARIO) REFERENCES FUNCIO
 
 
 
-INSERT INTO AVIAO VALUES('corredor unico', 1, 100, 1, 4),	-- 12 Companhias Aéreas
+INSERT INTO AVIAO VALUES('corredor unico', 1, 100, 1, 1),
 						('fuselagem larga', 2, 126, 2, 1),
-                        ('fuselagem larga', 3, 132, 3, 12),
+                        ('fuselagem larga', 3, 132, 3, 1),
                         ('regional', 4, 80, 4, 1),
-                        ('corredor duplo', 5, 180, 5, 11),
-                        ('corredor unico', 6, 84, 6, 4),
+                        ('corredor duplo', 5, 180, 5, 2),
+                        ('corredor unico', 6, 84, 6, 2),
                         ('corredor unico', 7, 76, 7, 2),
-                        ('regional', 8, 96, 8, 5),
-                        ('regional', 9, 88, 9, 6),
-                        ('regional', 10, 80, 10, 6),
-                        ('fuselagem larga', 11, 130, 11, 1),
-                        ('corredor unico', 12, 84, 12, 11),
-                        ('regional', 13, 88, 13, 7),
-                        ('corredor unico', 14, 102, 14, 10),
-                        ('corredor duplo', 15, 174, 15, 5),
-                        ('corredor unico', 16, 96, 16, 2),
-                        ('corredor unico', 17, 90, 17, 2),
-                        ('regional', 18, 64, 18, 7),
-                        ('corredor unico', 19, 98, 19, 12),
-                        ('corredor unico', 20, 78, 20, 6),
-                        ('regional', 21, 82, 21, 6),
-                        ('regional', 22, 84, 22, 7),
-                        ('corredor duplo', 23, 194, 23, 8),
-                        ('fuselagem larga', 24, 144, 24, 3),
-                        ('fuselagem larga', 25, 138, 25, 9),
-                        ('corredor duplo', 26, 182, 26, 10),
-                        ('corredor unico', 27, 100, 27, 9);
+                        ('regional', 8, 96, 8, 2);
 
 ALTER TABLE AVIAO ADD FOREIGN KEY (ID_COMPANHIA) REFERENCES COMPANHIA_AEREA(ID_COMPANHIA) ON DELETE SET NULL ON UPDATE CASCADE;  
 
 
 
-INSERT INTO VOO VALUES('Nova Iorque', '19-05-2016', '17:35:01', 1, 4, 1, 3), -- 27 Aviões, 4 Aeroportos, 4 Funcionários (Operadores de carga)
+INSERT INTO VOO VALUES('Nova Iorque', '19-05-2016', '17:35:01', 1, 4, 1, 3),
 					  ('Miami', '2021-04-07', '21:04:09', 2, 7, 1, 1),
                       ('Casablanca', '2015-01-15', '09:08:54', 3, 9, 1, 1),
                       ('Toronto', '2022-08-09', '10:07:48', 4, 10, 1, 2),
@@ -130,7 +111,7 @@ ALTER TABLE VOO ADD FOREIGN KEY (ID_FUNCIONARIO) REFERENCES FUNCIONARIO(ID_FUNCI
 
 
 
-INSERT INTO BAGAGEM VALUES(14, 1, 'aceito', 1, 1, 20),	-- 20 Passageiros, 31 Voos
+INSERT INTO BAGAGEM VALUES(14, 1, 'aceito', 1, 1, 20),
 						  (16, 3, 'despachado', 2, 2, 3),
                           (13, 2, 'despachado', 3, 3, 20),
                           (22, 2, 'entregue', 4, 4, 14),
