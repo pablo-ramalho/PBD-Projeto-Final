@@ -129,7 +129,7 @@ CREATE TABLE IF NOT EXISTS RESERVA_EMBARQUE(
                                      STATUS_CHECKIN = 'pendente'
 									) NOT NULL,
     HORA_EMBARQUE TIME NOT NULL,
-    DATA_EMBARQUE DATE NOT NULL,
+    DATA_EMBARQUE DATE CHECK(DATA_EMBARQUE = DATA_CHECKIN) NOT NULL,
     STATUS_EMBARQUE VARCHAR(15) CHECK(STATUS_EMBARQUE = 'aberto' OR
 									  STATUS_EMBARQUE = 'concluido' OR
                                       STATUS_EMBARQUE = 'em andamento' OR
