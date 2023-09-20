@@ -38,14 +38,7 @@ CREATE TABLE IF NOT EXISTS COMPANHIA_AEREA(
                                      NOME_COMPANHIA = 'Azul' OR 
                                      NOME_COMPANHIA = 'LATAM' OR
                                      NOME_COMPANHIA = 'GOL' OR
-                                     NOME_COMPANHIA = 'Copa Airlines' OR
-                                     NOME_COMPANHIA = 'TAP Air Portugal' OR
-                                     NOME_COMPANHIA = 'Passaredo' OR
-                                     NOME_COMPANHIA = 'Qatar Airways' OR
-                                     NOME_COMPANHIA = 'Air France KLM' OR
-                                     NOME_COMPANHIA = 'Fly Emirates' OR
-                                     NOME_COMPANHIA = 'MAP' OR
-                                     NOME_COMPANHIA = 'Voepass'),
+),
 
     ID_COMPANHIA INT, -- CHAVE PRIMÁRIA
 
@@ -65,14 +58,14 @@ CREATE TABLE IF NOT EXISTS OPERADOR_DE_CARGA(
 );
 
 CREATE TABLE IF NOT EXISTS AVIAO(
-    TIPO_AVIAO VARCHAR(20) CHECK(TIPO_AVIAO = 'corredor unico' OR
-							     TIPO_AVIAO = 'corredor duplo' OR
+    TIPO_AVIAO VARCHAR(20) CHECK(TIPO_AVIAO = 'corredor duplo' OR
+							     TIPO_AVIAO = 'corredor unico' OR
+                                 TIPO_AVIAO = 'fuselagem larga' OR
                                  TIPO_AVIAO = 'longo alcance' OR
-                                 TIPO_AVIAO = 'regional' OR
-                                 TIPO_AVIAO = 'fuselagem larga'
+                                 TIPO_AVIAO = 'regional'
 								) NOT NULL,
     NUMERO_REGISTRO INT UNIQUE NOT NULL,
-    CAPACIDADE_ASSENTOS INT CHECK(CAPACIDADE_ASSENTOS > 2),
+    CAPACIDADE_ASSENTOS INT CHECK(CAPACIDADE_ASSENTOS > 0),
 
     ID_AVIAO INT, -- CHAVE PRIMÁRIA
 
@@ -98,13 +91,13 @@ CREATE TABLE IF NOT EXISTS BAGAGEM(
     PESO INT CHECK(PESO > 0) NOT NULL,
     DIMENSOES INT CHECK(DIMENSOES > 0) NOT NULL,	-- EM METROS QUADRADOS (m²)
     STATUS_DESPACHO VARCHAR(15) CHECK(STATUS_DESPACHO = 'aceito' OR 
-									  STATUS_DESPACHO = 'em processamento' OR
-                                      STATUS_DESPACHO = 'despachado' OR
-                                      STATUS_DESPACHO = 'nao aceito' OR
-                                      STATUS_DESPACHO = 'extraviado' OR
-                                      STATUS_DESPACHO = 'entregue' OR
+									  STATUS_DESPACHO = 'atrasado' OR
                                       STATUS_DESPACHO = 'danificado' OR
-                                      STATUS_DESPACHO = 'atrasado'
+                                      STATUS_DESPACHO = 'despachado' OR
+                                      STATUS_DESPACHO = 'em processamento' OR
+                                      STATUS_DESPACHO = 'entregue' OR
+                                      STATUS_DESPACHO = 'extraviado' OR
+                                      STATUS_DESPACHO = 'nao aceito'
 									 ) NOT NULL,
     
     ID_BAGAGEM INT CHECK(ID_BAGAGEM = ID_PASSAGEIRO), -- CHAVE PRIMÁRIA
@@ -124,8 +117,8 @@ CREATE TABLE IF NOT EXISTS AEROPORTO(
 CREATE TABLE IF NOT EXISTS RESERVA_EMBARQUE(
     HORA_CHECKIN TIME CHECK(HORA_CHECKIN < HORA_EMBARQUE) NOT NULL,
     DATA_CHECKIN DATE CHECK(DATA_CHECKIN = DATA_EMBARQUE AND DATA_CHECKIN = (SELECT DATA_PARTIDA FROM VOO AS V, RESERVA_EMBARQUE AS RE WHERE V.DATA_PARTIDA = RE.DATA_CHECKIN)) NOT NULL,
-    STATUS_CHECKIN VARCHAR(15) CHECK(STATUS_CHECKIN = 'concluido' OR
-                                     STATUS_CHECKIN = 'erro' OR
+    STATUS_CHECKIN VARCHAR(15) CHECK(STATUS_CHECKIN = 'aberto' OR
+                                     STATUS_CHECKIN = 'concluido' OR
                                      STATUS_CHECKIN = 'pendente'
 									) NOT NULL,
     HORA_EMBARQUE TIME NOT NULL,
