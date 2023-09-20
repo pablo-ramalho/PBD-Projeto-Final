@@ -4,6 +4,7 @@ Restrições de domínio para as tabelas:
 
 PASSAGEIRO:
 DATA_NASCIMENTO = {DATA_NASCIMENTO < DATA ATUAL}
+
 GENERO = {'M', 'F'}
 
 
@@ -12,14 +13,20 @@ GENERO = {'M', 'F'}
 
 FUNCIONARIO:
 EMAIL = {'algo@algo.algo'}  => Exemplo 'fulanodasilva@outlook.com'
-TELEFONE = {'984DDDDDD', '991DDDDDD', '999DDDDDD'} => D será substituido por um digito de 0 a 9
+
+TELEFONE = {'984DDDDDD', 
+            '991DDDDDD', 
+            '999DDDDDD'} => D será substituido por um digito de 0 a 9
 
 
 
 
 
 COMPANHIA_AEREA:
-NOME_COMPANHIA = {'Avianca', 'Azul', 'LATAM', 'GOL', 'Copa', 'TAP Air Portugal', 'Passaredo', 'Qatar Airways', 'Air France KLM', 'Fly Emirates', 'MAP', 'Voepass'}
+NOME_COMPANHIA = {'Avianca', 
+                  'Azul', 
+                  'LATAM', 
+                  'GOL'}
 
 
 
@@ -36,23 +43,51 @@ EMPRESA_CARGA = {'Azul Cargo Express' (se a companhia aérea for a Azul),
 
 
 AVIAO:
-TIPO_AVIAO = {'corredor unico', 'corredor duplo', 'longo alcance', 'regional', 'fuselagem larga'}
-CAPACIDADE_ASSENTOS = {CAPACIDADE_ASSENTOS > 2}
+TIPO_AVIAO = {'corredor duplo',
+              'corredor unico', 
+              'fuselagem larga',
+              'longo alcance', 
+              'regional', 
+              }
+
+CAPACIDADE_ASSENTOS = {CAPACIDADE_ASSENTOS > 0}
+
+
+
+
+
+VOO:
+ID_FUNCIONARIO = {1 <= ID_FUNCIONARIO <= COUNT(ID_FUNCIONARIO)}
 
 
 
 
 
 BAGAGEM:
-STATUS_DESPACHO = {'aceito', 'em processamento', 'despachado', 'nao aceito', 'extraviado', 'entregue', 'danificado', 'atrasado'}
+STATUS_DESPACHO = {'aceito', 
+                   'atrasado',
+                   'danificado',
+                   'despachado', 
+                   'em processamento', 
+                   'entregue',
+                   'extraviado', 
+                   'nao aceito'
+                   }
 
 
 
 
 
 RESERVA_EMBARQUE:
-STATUS_CHECKIN = {'aberto', 'concluido', 'encerrado', 'erro', 'pendente'}
-STATUS_EMBARQUE = {'aberto', 'concluido', 'em andamento', 'encerrado', 'finalizado', 'prioritario'}
+STATUS_CHECKIN = {'aberto', 
+                  'concluido', 
+                  'pendente'}
+
+STATUS_EMBARQUE = {'aberto',
+                   'concluido', 
+                   'em andamento', 
+                   'encerrado', 
+                   'prioritario'}
 
 ############################### ORDEM DE INSERÇÃO DOS DADOS NA PRIMEIRA CRIAÇÃO ###############################
 1º Inserir em AEROPORTO
