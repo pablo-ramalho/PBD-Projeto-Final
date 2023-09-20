@@ -123,11 +123,17 @@ CREATE TABLE IF NOT EXISTS RESERVA_EMBARQUE(
 									) NOT NULL,
     HORA_EMBARQUE TIME NOT NULL,
     DATA_EMBARQUE DATE CHECK(DATA_EMBARQUE = DATA_CHECKIN AND DATA_EMBARQUE = (SELECT DATA_PARTIDA FROM VOO AS V, RESERVA_EMBARQUE AS RE WHERE V.DATA_PARTIDA = RE.DATA_EMBARQUE)) NOT NULL,
-    STATUS_EMBARQUE VARCHAR(15) CHECK(STATUS_EMBARQUE = 'aberto' OR
-									  STATUS_EMBARQUE = 'concluido' OR
-                                      STATUS_EMBARQUE = 'em andamento' OR
-                                      STATUS_EMBARQUE = 'encerrado' OR
-                                      STATUS_EMBARQUE = 'prioritario'
+    STATUS_EMBARQUE VARCHAR(15) CHECK((STATUS_EMBARQUE = 'aberto' AND 
+                                       STATUS_CHECKIN = 'pendente') OR
+									  
+                                      ((STATUS_EMBARQUE = 'concluido' OR 
+                                        STATUS_EMBARQUE = 'em andamento' OR
+                                        STATUS_EMBARQUE = 'prioritario') AND 
+                                        
+                                        STATUS_CHECKIN = 'concluido') OR
+                                      
+                                       (STATUS_EMBARQUE = 'encerrado' AND
+                                        STATUS_CHECKIN='erro')
 									 ) NOT NULL,
     NUM_ASSENTO INT NOT NULL,
     CARTAO_EMBARQUE INT,
