@@ -4,7 +4,7 @@ import java.sql.SQLException;
 
 public class Conexao{
 
-    private static String caminhoDoBanco = "jdbc:mysql://127.0.0.1:3306/cadastro";
+    private static String caminhoDoBanco = "jdbc:mysql://127.0.0.1:3306/aeroporto";
     private static String usuario = "root";
     private static String senha = "";
     private static Connection connection;
