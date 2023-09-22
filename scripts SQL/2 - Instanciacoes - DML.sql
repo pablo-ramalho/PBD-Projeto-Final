@@ -115,7 +115,7 @@ INSERT INTO BAGAGEM VALUES(14, 1, 'aceito', 1, 1, 2),
                           (23, 1, 'entregue', 18, 18, 12),
                           (14, 3, 'em processamento', 19, 19, 6),
                           (23, 2, 'nao aceito', 20, 20, 10);
-                          
+                         
 ALTER TABLE BAGAGEM ADD FOREIGN KEY (ID_PASSAGEIRO) REFERENCES PASSAGEIRO(ID_PASSAGEIRO) ON DELETE SET NULL ON UPDATE CASCADE;
 ALTER TABLE BAGAGEM ADD FOREIGN KEY (ID_VOO) REFERENCES VOO(ID_VOO) ON DELETE CASCADE ON UPDATE CASCADE;
 
@@ -138,8 +138,9 @@ INSERT INTO RESERVA_EMBARQUE VALUES('15:09:20', '2016-05-19', 'concluido', '15:3
                                    ('14:20:27', '2019-07-20', 'concluido', '14:23:48', '2019-07-20', 'concluido', 32, 16, 16, 16),
                                    ('19:20:12', '2023-09-15', 'erro', '19:23:10', '2023-09-15', 'encerrado', 20, 17, 17, 17),
                                    ('18:40:43', '2017-07-14', 'concluido', '18:42:01', '2017-07-14', 'em andamento', 10, 18, 18, 18),
-                                   ('15:10:06', '2016-03-28', 'pendente', '15:11:56', '2016-03-28', 'aberto', 32, 19, 19, 19),
-                                   ('20:09:45', '2021-05-20', 'concluido', '20:15:46', '2021-05-20', 'concluido', 20, 20, 20, 20);
+                                   ('15:10:06', '2016-03-28', 'pendente', '15:11:56', '2016-03-28', 'aberto', 32, 19, 19, 19);
+
+INSERT INTO RESERVA_EMBARQUE VALUES('20:09:45', '2021-05-20', 'concluido', '20:15:46', '2021-05-20', 'concluido', 20, 20, 20, 20),
                                    ('00:30:00', '2003-01-05', 'concluido', '00:38:00', '2003-01-05', 'concluido', 40, 21, 21, 1),
                                    ('00:30:00', '2003-01-05', 'concluido', '00:42:00', '2003-01-05', 'concluido', 41, 21, 21, 2),
                                    ('00:30:00', '2003-01-05', 'concluido', '00:41:00', '2003-01-05', 'concluido', 50, 21, 21, 3),
@@ -158,7 +159,6 @@ INSERT INTO RESERVA_EMBARQUE VALUES('15:09:20', '2016-05-19', 'concluido', '15:3
                                    ('14:52:00', '2016-06-23', 'concluido', '15:02:01', '2016-06-23', 'concluido', 41, 22, 22, 10),
                                    ('14:51:00', '2016-06-23', 'concluido', '15:00:40', '2016-06-23', 'concluido', 48, 22, 22, 11),
                                    ('14:53:00', '2016-06-23', 'concluido', '15:01:53', '2016-06-23', 'concluido', 32, 22, 22, 12);
-
 
 ALTER TABLE RESERVA_EMBARQUE ADD FOREIGN KEY (ID_VOO) REFERENCES VOO(ID_VOO) ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE RESERVA_EMBARQUE ADD FOREIGN KEY (ID_PASSAGEIRO) REFERENCES PASSAGEIRO(ID_PASSAGEIRO) ON DELETE CASCADE ON UPDATE CASCADE;
