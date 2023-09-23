@@ -1,15 +1,12 @@
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.ResultSetMetaData;
-import java.sql.Types;
 
 public class Operacao{
 
     private String comandoSQL;
     private Statement statement;
-    private PreparedStatement preparedStatement;
 
     public Operacao(String comandoSQL){
         this.comandoSQL = comandoSQL;
@@ -34,14 +31,8 @@ public class Operacao{
                 System.out.println("Este comando não é um SELECT!");
 
             else{
-
                 //CRIA O COMANDO PARA REALIZAR A CONSULTA E OBTÉM OS METADADOS DO RESULTADO DA CONSULTA
-                if(Conexao.getConnection() != null)
                     statement = Conexao.getConnection().createStatement();
-
-                else
-                    statement = Conexao.criarConexao().createStatement();
-                
                 
                 resultSet = statement.executeQuery(this.comandoSQL);
                 resultSetMetaData = resultSet.getMetaData();
@@ -60,58 +51,6 @@ public class Operacao{
         }
         
     }
-
-    /**
-     * Executa um comando do tipo <strong>DDL</strong> (Data Definition Language)
-     * e mostra informações sobre o comando executado. 
-     * O comando deve ser <strong>CREATE</strong>, <strong>ALTER</strong> ou <strong>DROP</strong>. 
-     * Se o comando especificado não for um dos citados anteriormente o comando será considerado
-     * inválido pelo método e não será executado.
-     */
-    public void definir(){
-        int tuplasAfetadas;
-        ResultSet resultSet;
-        ResultSetMetaData resultSetMetaData;
-
-        try{
-
-            if(comandoSQL.contains("CREATE") == false || comandoSQL.contains("CREATE".toLowerCase()) == false ||
-               comandoSQL.contains("ALTER") == false || comandoSQL.contains("ALTER".toLowerCase()) == false ||
-               comandoSQL.contains("DROP") == false || comandoSQL.contains("DROP".toLowerCase()) == false ||
-               comandoSQL.contains("TRUNCATE") == false || comandoSQL.contains("TRUNCATE".toLowerCase()) == false)
-                System.out.println("Este comando não é um comando DDL (CREATE, ALTER ou DROP)!");
-
-            else{
-
-                //CRIA O COMANDO PARA EXECUTAR O COMANDO DDL ESPECIFICADO
-                if(statement != null)
-                    preparedStatement = Conexao.getConnection().prepareStatement(comandoSQL);
-
-                else
-                    preparedStatement = Conexao.criarConexao().prepareStatement(comandoSQL);
-
-                tuplasAfetadas = preparedStatement.executeUpdate();
-
-                resultSet = preparedStatement.getResultSet();
-                resultSetMetaData = preparedStatement.getMetaData();
-
-                this.imprimirInfosComandoDDL(resultSetMetaData);
-
-                System.out.println(tuplasAfetadas + " tupla" + 
-                                  ((tuplasAfetadas > 1) ? "s " : " ") + "afetada" +
-                                  ((tuplasAfetadas > 1) ? "s.": "."));
-
-                this.encerrarComando();
-
-            }
-
-        }catch(SQLException e){
-            System.out.println("Problema ao executar comando DDL: " + e.getMessage());
-
-        }
-
-    }
-    /* TODO criar método para tratar comandos DML*/
 
     /**
      * Este método é usado para exibir informações sobre a consulta realizada.
@@ -139,7 +78,7 @@ public class Operacao{
             while(resultSet.next()){
 
                 for(int coluna = 1; coluna <= numeroDeColunas; coluna++)
-                    this.imprimirValorDaColuna(coluna, resultSet, resultSetMetaData);
+                    System.out.println(resultSet.getString(coluna) + " | ");
 
                 System.out.println("\n");
 
@@ -153,69 +92,67 @@ public class Operacao{
     }
 
     /**
-     * Verifica o tipo de dado do valor na linguagem SQL e o transcreve para o seu equivalente compatível em Java. 
-     * <strong>Exemplo: </strong>o equivalente de <strong>VARCHAR</strong> em SQL seria <strong>String</strong> em Java.
-     * @param coluna o número (de 1 até número de colunas da tabela)
-     * @param resultSet o resultado da consulta
-     * @param resultSetMetaData os metadados da consulta, como contagem do número de colunas, nome da tabela, nome de uma coluna específica...
+     * Executa um comando do tipo <strong>DDL</strong> (Data Definition Language)
+     * e mostra informações sobre o comando executado. 
+     * O comando deve ser <strong>CREATE</strong>, <strong>ALTER</strong> ou <strong>DROP</strong>. 
+     * Se o comando especificado não for um dos citados anteriormente o comando será considerado
+     * inválido pelo método e não será executado.
      */
-    private void imprimirValorDaColuna(int coluna, ResultSet resultSet, ResultSetMetaData resultSetMetaData){
-        int tipoDaColuna;
+    public void definir(){
+        int tuplasAfetadas;
+        ResultSet resultSet = null;
+        ResultSetMetaData resultSetMetaData = null;
 
         try{
-            tipoDaColuna = resultSetMetaData.getColumnType(coluna);
 
-            //TIPO LITERAL
-            if(tipoDaColuna == Types.VARCHAR || tipoDaColuna == Types.CHAR)
-                System.out.print(resultSet.getString(coluna));
+            if(comandoSQL.contains("CREATE ") == false || comandoSQL.contains("CREATE ".toLowerCase()) == false ||
+               comandoSQL.contains("ALTER ") == false || comandoSQL.contains("ALTER ".toLowerCase()) == false ||
+               comandoSQL.contains("DROP ") == false || comandoSQL.contains("DROP ".toLowerCase()) == false)
+                System.out.println("Este comando não é um comando DDL (CREATE, ALTER ou DROP)!");
 
+            else{
 
+                //CRIA O COMANDO PARA EXECUTAR O COMANDO DDL ESPECIFICADO
+                if(statement != null)
+                    Conexao.getConnection().createStatement();
 
-            //TIPO NUMÉRICO
-            if(tipoDaColuna == Types.INTEGER)
-                System.out.print(resultSet.getInt(coluna));
+                if(comandoSQL.contains("DROP ") == false){
+                    tuplasAfetadas = statement.executeUpdate(comandoSQL);
 
-            if(tipoDaColuna == Types.DECIMAL)
-                System.out.print(resultSet.getDouble(coluna));
+                    resultSet = statement.getResultSet();
+                    resultSetMetaData = resultSet.getMetaData();
+                    
+                    this.imprimirInfosComandoDDL(resultSetMetaData);
 
+                }else{
+                    tuplasAfetadas = statement.executeUpdate(comandoSQL);
 
+                    this.imprimirInfosComandoDDL();
 
-            //TIPO LÓGICO
-            if(tipoDaColuna == Types.BOOLEAN)
-                System.out.print(resultSet.getBoolean(coluna));
+                }
 
+                System.out.println(tuplasAfetadas + " tupla" + 
+                                  ((tuplasAfetadas > 1) ? "s " : " ") + "afetada" +
+                                  ((tuplasAfetadas > 1) ? "s.": "."));
 
+                this.encerrarComando();
 
-            //TIPO TEMPORAL (DATA/HORA)
-            if(tipoDaColuna == Types.DATE)
-                System.out.print(resultSet.getDate(coluna).toLocalDate().getDayOfMonth() + "/" +
-                                 resultSet.getDate(coluna).toLocalDate().getMonthValue() + "/" +
-                                 resultSet.getDate(coluna).toLocalDate().getYear());
-
-            if(tipoDaColuna == Types.TIME)
-                System.out.print(resultSet.getTime(coluna).toLocalTime().getHour() + ":" +
-                                 resultSet.getTime(coluna).toLocalTime().getMinute() + ":" +
-                                 resultSet.getTime(coluna).toLocalTime().getSecond()
-                                );
-
-            if(tipoDaColuna == Types.TIMESTAMP)
-                System.out.print(resultSet.getTimestamp(coluna).toLocalDateTime().getDayOfMonth() + "/" +
-                                 resultSet.getTimestamp(coluna).toLocalDateTime().getMonthValue() + "/" +
-                                 resultSet.getTimestamp(coluna).toLocalDateTime().getYear() + " " +
-                                 resultSet.getTimestamp(coluna).toLocalDateTime().getHour() + ":" +
-                                 resultSet.getTimestamp(coluna).toLocalDateTime().getMinute() + ":" +
-                                 resultSet.getTimestamp(coluna).toLocalDateTime().getSecond()
-                                );
-
-            System.out.print("\t|\t");
+            }
 
         }catch(SQLException e){
-            System.out.println("Problema ao obter valor da coluna: " + e.getMessage());
+            System.out.println("Problema ao executar comando DDL: " + e.getMessage());
 
         }
 
     }
 
+    /* TODO criar método para tratar comandos DML*/
+    
+    /**
+     * Sobrecarga do método imprimirInfosComandosDDL().
+     * @param resultSetMetaData os metadados relacionados ao ResultSet (nomes das tabelas, colunas, tipos, ...). 
+     * Usado quando um comando CREATE ou ALTER é especificado
+     */
     private void imprimirInfosComandoDDL(ResultSetMetaData resultSetMetaData){
         int numeroDeColunas;
         String nomeDaTabela = "";
@@ -245,6 +182,8 @@ public class Operacao{
 
             }    
 
+
+
             //CASO O COMANDO DE ALTERAÇÃO DE TABELA SEJA ESPECIFICADO
             if(comandoSQL.contains("ALTER TABLE") || comandoSQL.contains("ALTER TABLE".toLowerCase())){
                 String[] chavePrimaria;
@@ -271,6 +210,7 @@ public class Operacao{
                     System.out.println(")\n");
 
                 }
+
 
 
                 //CASO O COMANDO ESPECIFICADO SEJA PARA ASSOCIAR UMA CHAVE ESTRANGEIRA À TABELA DESIGNADA PARA QUE ESTA REFERENCIE OUTRA TABELA
@@ -324,15 +264,29 @@ public class Operacao{
                 }
 
             }
-
-            /* TODO definir o que acontece quando um comando DROP TABLE é especificado */
-            if(comandoSQL.contains("DROP TABLE") || comandoSQL.contains("DROP TABLE".toLowerCase())){
-                System.out.println();
-
-            }    
     
         }catch(SQLException e){
             System.out.println("Problema: " + e.getMessage());
+
+        }
+
+    }
+
+    /**
+     * Sobrecarga do método imprimirInfosComandoDDL(). 
+     * Usado quando um comando DROP é especificado
+     */
+    private void imprimirInfosComandoDDL(){
+        int delimitadorInicio;
+        int delimitadorFim;
+        String nomeDaTabela = null;
+
+        if(comandoSQL.contains("DROP TABLE") || comandoSQL.contains("DROP TABLE".toLowerCase())){
+            delimitadorInicio = comandoSQL.indexOf(comandoSQL.lastIndexOf("TABLE ") + 1);
+            delimitadorFim = comandoSQL.indexOf(delimitadorInicio + 6 + comandoSQL.substring(delimitadorInicio + 6));
+            nomeDaTabela = comandoSQL.substring(delimitadorInicio, delimitadorFim);
+
+            System.out.print("Tabela " + nomeDaTabela + " removida");
 
         }
 
@@ -376,12 +330,8 @@ public class Operacao{
     public void encerrarComando(){
 
         try{
-
-            if(statement != null)
-                statement.close();
-
-            if(preparedStatement != null)
-                preparedStatement.close();
+            statement.close();
+            System.out.println("COMANDO ENCERRADO COM SUCESSO! V");
 
         }catch(SQLException e){
             System.out.println("Problema ao encerrar o comando: " + e.getMessage());

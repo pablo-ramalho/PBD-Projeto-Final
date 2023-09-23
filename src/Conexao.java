@@ -39,6 +39,7 @@ public class Conexao{
 
         try{
             connection.close();
+            System.out.println("CONEXÃO ENCERRADA COM SUCESSO! V");
         
         }catch(SQLException e){
             System.out.println("Problema ao fechar a conexão: " + e.getMessage());
